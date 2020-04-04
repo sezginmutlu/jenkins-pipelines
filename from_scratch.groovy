@@ -7,13 +7,26 @@ node {
 
 		// Below line triggers this job every minute
 		pipelineTriggers([pollSCM('* * * * *')]),
-		parameters([choice(choices: [
+		parameters([
+			// Asks for Environment to Build
+			choice(choices: [
 			'dev1.devops-chicago.com', 
 			'qa1.devops-chicago.com', 
 			'stage1.devops-chicago.com', 
 			'prod1.devops-chicago.com'], 
 			description: 'Please choose an environment', 
 			name: 'ENVIR')]), 
+        // Asks for version
+        choice(choices: [
+			'v0.1', 
+			'v0.2', 
+			'v0.3', 
+			'v0.4', 
+			'v0.5'], 
+		description: 'Which version should we deploy?', 
+		name: 'Version')
+
+
 		])
 
 		// Pulls a repo from developer
