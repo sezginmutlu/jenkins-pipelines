@@ -24,7 +24,7 @@ node {
 			'v0.5'], 
 		description: 'Which version should we deploy?', 
 		name: 'Version'),
-		
+
 		// ASk for an Input
 		string(defaultValue: 'v1', 
 		description: 'Please enter version number', 
@@ -55,11 +55,16 @@ node {
 	}
 		//Restarts web server
 	stage("Restart web server"){
-		sh "ssh centos@${ENVIR}               sudo systemctl restart httpd"
+		ws {
+			sh "ssh centos@${ENVIR}               sudo systemctl restart httpd"
+		}
 	}
 
 		//Sends a message to slack
 	stage("Slack"){
-		slackSend color: '#BADA55', message: 'Hello, World!'
+		ws { 
+			slackSend color: '#BADA55', message: 'Hello, World!'
+		}
 	}
+
 }
