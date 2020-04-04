@@ -15,7 +15,7 @@ node {
 			'stage1.devops-chicago.com', 
 			'prod1.devops-chicago.com'], 
 			description: 'Please choose an environment', 
-			name: 'ENVIR')]), 
+			name: 'ENVIR'), 
         // Asks for version
         choice(choices: [
 			'v0.1', 
@@ -25,8 +25,7 @@ node {
 			'v0.5'], 
 		description: 'Which version should we deploy?', 
 		name: 'Version')
-
-
+             ])
 		])
 
 		// Pulls a repo from developer
