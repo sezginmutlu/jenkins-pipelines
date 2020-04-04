@@ -4,7 +4,6 @@ node {
 		buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')), 
         disableConcurrentBuilds(),
 
-
 		// Below line triggers this job every minute
 		pipelineTriggers([pollSCM('* * * * *')]),
 		parameters([
@@ -24,7 +23,13 @@ node {
 			'v0.4', 
 			'v0.5'], 
 		description: 'Which version should we deploy?', 
-		name: 'Version')
+		name: 'Version'),
+		
+		// ASk for an Input
+		string(defaultValue: 'v1', 
+		description: 'Please enter version number', 
+		name: 'APP_VERSION', 
+		trim: true)
              ])
 		])
 
