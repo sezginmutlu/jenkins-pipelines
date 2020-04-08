@@ -48,3 +48,4 @@ docker tag artemis:$(Version) 945548589381.dkr.ecr.us-east-1.amazonaws.com/artem
 
 ''' 
 }
+}
