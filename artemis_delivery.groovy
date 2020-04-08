@@ -48,7 +48,7 @@ node {
 	    timestamps {
 			ws {
 				sh '''
-					docker push 713287746880.dkr.ecr.us-east-1.amazonaws.com/artemis:${Version}
+					docker push 945548589381.dkr.ecr.us-east-1.amazonaws.com/artemis:${Version}
 					'''
 				}
 			}
