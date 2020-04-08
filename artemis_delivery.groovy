@@ -13,7 +13,7 @@ node {
 	stage("Stage1"){
 		timestamps {
 			ws {
-                checkout([$class: 'GitSCM', branches: [[name: '$(Version)']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/farrukh90/artemis.git']]])		}
+                checkout([$class: 'GitSCM', branches: [[name: '${Version}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/farrukh90/artemis.git']]])		}
 	}
 }
 	stage("Get Credentials"){
@@ -35,17 +35,30 @@ node {
 	    }
     }
 
-
-	stage("Tag Image"){ 
-
-timestamps { 
-
-ws { 
-
-sh ''' 
-
-docker tag artemis:$(Version) 945548589381.dkr.ecr.us-east-1.amazonaws.com/artemis:$(Version) 
-
-''' 
-}
-}
+    stage("Tag Image"){
+		timestamps {
+			ws {
+				sh '''
+                    docker tag artemis:${Version} 945548589381.dkr.ecr.us-east-1.amazonaws.com/artemis:${Version}
+                    '''
+				}
+			}
+		}
+    stage("Push Image"){
+	    timestamps {
+			ws {
+				sh '''
+					docker push 713287746880.dkr.ecr.us-east-1.amazonaws.com/artemis:${Version}
+					'''
+				}
+			}
+		}
+	stage("Send slack notifications"){
+		timestamps {
+			ws {
+					echo "Slack"
+					//slackSend color: '#BADA55', message: 'Hello, World!'
+				}
+			}
+		}
+	}
