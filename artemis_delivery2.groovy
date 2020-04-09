@@ -12,10 +12,10 @@ node {
 	name: 'Version'), 
 	choice(choices: 
 	[
-		'dev1.acirrustech.com', 
-		'qa1.acirrustech.com', 
-		'stage1.acirrustech.com', 
-		'prod1.acirrustech.com'], 
+		'dev1.devops-chicago.com', 
+		'qa1.devops-chicago.com', 
+		'stage1.devops-chicago.com', 
+		'prod1.devops-chicago.com'], 
 	description: 'Please provide an environment to build the application', 
 	name: 'ENVIR')])])
 	stage("Stage1"){
@@ -76,10 +76,10 @@ node {
                             try { 
                                 sh ''' 
                                  #!/bin/bash 
-                                IMAGES=$(ssh centos@dev1.acirrustech.com docker ps -aq)  
+                                IMAGES=$(ssh centos@dev1.${ENVIR} docker ps -aq)  
                                 for i in \$IMAGES; do 
-                                ssh centos@dev1.acirrustech.com docker stop \$i 
-                                 ssh centos@dev1.acirrustech.com docker rm \$i 
+                                ssh centos@dev1.${ENVIR} docker stop \$i 
+                                 ssh centos@dev1.${ENVIR} docker rm \$i 
                                  done  
                                 ''' 
                     } catch(e) { 
@@ -91,12 +91,12 @@ node {
 
 
             stage("Run Container"){ 
-            timestamps { 
-            ws { 
-            sh ''' 
-            ssh centos@dev1.acirrustech.com docker run -dti -p 5001:5000 713287746880.dkr.ecr.us-east-1.amazonaws.com/artemis:${Version} 
-            ''' 
-            } 
-        } 
-    } 
+                timestamps { 
+                   ws { 
+                    sh ''' 
+                    ssh centos@${ENVIR} docker run -dti -p 5001:5000 713287746880.dkr.ecr.us-east-1.amazonaws.com/artemis:${Version} 
+                     ''' 
+              } 
+         } 
+     } 
 }
