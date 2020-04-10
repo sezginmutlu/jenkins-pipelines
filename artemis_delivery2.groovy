@@ -94,6 +94,7 @@ node {
                 timestamps { 
                    ws { 
                     sh ''' 
+                    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 945548589381.dkr.ecr.us-east-1.amazonaws.com/artemis
                     ssh centos@${ENVIR} docker run -dti -p 5001:5000 713287746880.dkr.ecr.us-east-1.amazonaws.com/artemis:${Version} 
                      ''' 
               } 
